@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using InControl;
 using UnityEngine;
 
 public class Recitle : MonoBehaviour 
@@ -40,78 +41,75 @@ public class Recitle : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		if (isPlayerOne) 
-		{
-			isEnabled = Input.GetAxis ("Axis 5") > 0.5f;
-			transform.GetChild(0).gameObject.SetActive(isEnabled);
+	    var controller = InputManager.ActiveDevice;
 
-			if (pastEnabled == true && isEnabled == false) 
-			{
-				threwPos = transform.position;
+        if (isPlayerOne)
+            UpdateReticle(controller.LeftTrigger.Value,
+                controller.LeftStickX,
+                controller.LeftStickY,
+                isPlayerOne);
+        else
+            UpdateReticle(controller.RightTrigger.Value,
+                controller.RightStickX,
+                controller.RightStickY,
+                isPlayerOne);
 
-				RS.spawnRock (transform.position,rockSpeed);
+    }
 
-				Invoke("makeRipple",rockSpeed);
-				pastEnabled = isEnabled;
-				transform.position = startPos;
-			}
+    void UpdateReticle(float triggerVal, float horizontal, float vertical, bool p1)
+    {
+        isEnabled = triggerVal > 0.5f;
+        transform.GetChild(0).gameObject.SetActive(isEnabled);
 
-			if (pastEnabled == false && isEnabled == true) 
-			{
-				transform.position = startPos;
-			}
+        if (pastEnabled && !isEnabled)
+        {
+            threwPos = transform.position;
 
-			pastEnabled = isEnabled;
+            RS.spawnRock(transform.position, rockSpeed);
 
-			//Movement
-			var delta = Vector3.zero;
-			//Limit x movement
-			if (transform.position.x <= River.transform.position.x) {
-				delta += new Vector3 (Input.GetAxis ("Horizontal"), 0, 0);
-			} else {
-				var p = transform.position;
-				transform.position = new Vector3 (River.transform.position.x, p.y, p.z);
-			}
+            Invoke("makeRipple", rockSpeed);
+            pastEnabled = isEnabled;
+            transform.position = startPos;
+        }
 
-			delta += new Vector3 (0, 0, Input.GetAxis ("Vertical"));
-			transform.position += delta * speedie;
-		}
+        if (!pastEnabled && isEnabled)
+        {
+            transform.position = startPos;
+        }
 
-		else if (!isPlayerOne) 
-		{
-			if (pastEnabled == true && isEnabled == false) 
-			{
-				threwPos = transform.position;
-				RS.spawnRock (transform.position,rockSpeed);
-				pastEnabled = isEnabled;
-				transform.position = startPos;
-				Invoke("makeRipple",rockSpeed);
-			}
-			
-			if (pastEnabled == false && isEnabled == true) 
-			{
-				transform.position = startPos;
-			}
-			
-			pastEnabled = isEnabled;
+        pastEnabled = isEnabled;
 
-			isEnabled = Input.GetAxis ("Axis 6") > 0.5f;
-			transform.GetChild(0).gameObject.SetActive(isEnabled);
+        //Movement
+        var delta = Vector3.zero;
+        //Limit x movement
+        if (isPlayerOne)
+        {
+            if (transform.position.x <= River.transform.position.x)
+            {
+                delta += new Vector3(horizontal, 0, 0);
+            }
+            else
+            {
+                var p = transform.position;
+                transform.position = new Vector3(River.transform.position.x, p.y, p.z);
+            }
+        }
+        else
+        {
+            if (transform.position.x >= River.transform.position.x)
+            {
+                delta += new Vector3(horizontal, 0, 0);
+            }
+            else
+            {
+                var p = transform.position;
+                transform.position = new Vector3(River.transform.position.x, p.y, p.z);
+            }
+        }
 
-			//Movement
-			var delta = Vector3.zero;
-			//Limit x movement
-			if (transform.position.x >= River.transform.position.x) {
-				delta += new Vector3 (Input.GetAxis ("Axis 3"), 0, 0);
-			} else {
-				var p = transform.position;
-				transform.position = new Vector3 (River.transform.position.x, p.y, p.z);
-			}
-
-			delta += new Vector3 (0, 0, -Input.GetAxis ("Axis 4"));
-			transform.position += delta * speedie;
-		}
-	}
+        delta += new Vector3(0, 0, vertical);
+        transform.position += delta * speedie;
+    }
 
 	void makeRipple()
 	{
@@ -132,7 +130,6 @@ public class Recitle : MonoBehaviour
 
 	public void wavePush()
 	{
-		Debug.Log ("pusing at " + threwPos);
 		Collider[] colliders = Physics.OverlapSphere(threwPos, waveRad);
 
 		foreach (Collider hit in colliders) 
