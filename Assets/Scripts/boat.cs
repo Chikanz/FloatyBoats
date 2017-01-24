@@ -2,13 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class boat : MonoBehaviour {
-
-	public Transform River;
-	Rigidbody RB;
-	public float correctionForce = 5;
-	public float deadZone = 5;
-
+public class boat : MonoBehaviour
+{
+    private Rigidbody RB;
 
 	// Use this for initialization
 	void Start () 
@@ -19,18 +15,10 @@ public class boat : MonoBehaviour {
 
 	void Update () 
 	{
-
-		//Rot Correction, over compensates :c
-		//if (transform.rotation.y < 0 + deadZone) {			
-		//	RB.AddTorque (new Vector3 (0, correctionForce * RB.velocity.magnitude, 0));
-		//	Debug.Log ("correcting left");
-		//}
-		//
-		//else if (transform.rotation.y > 0 + deadZone) {
-		//	RB.AddTorque (new Vector3 (0, -correctionForce * RB.velocity.magnitude, 0));
-		//	Debug.Log ("correcting Right");
-		//}
 			
+        //Random noise
+
+
 		//Trying to GetType boat Touch float lol
 		//RaycastHit hit;
 		//Vector3 down = transform.TransformDirection(-Vector3.up);

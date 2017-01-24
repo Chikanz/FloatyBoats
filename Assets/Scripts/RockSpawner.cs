@@ -21,18 +21,21 @@ public class RockSpawner : MonoBehaviour {
 	{
 	}
 
-	public void spawnRock(Vector3 endPos, float speed)
+	public void spawnRock(Vector3 endPos, float speed, Recitle rec)
 	{
 		if (isThrowing) return;
 	
 		var thrownRock = Instantiate (rockObj, transform.position, Random.rotation, transform);
+	    thrownRock.transform.rotation = Random.rotation;
+	    Destroy(thrownRock, 3);
 		var res = calculateBestThrowSpeed (transform.position, endPos, speed); 
 		thrownRock.GetComponent<Rigidbody>().AddForce (res, ForceMode.VelocityChange);
-		//Destroy (thrownRock, time);                        
+	    thrownRock.GetComponent<pebble>().rec = rec;
+	    //Destroy (thrownRock, time);                        
 	}
 
 	//http://answers.unity3d.com/questions/248788/calculating-ball-trajectory-in-full-3d-world.html
-	//OUR SAVIOUR
+	//OUR SAVIOR
 	private Vector3 calculateBestThrowSpeed(Vector3 origin, Vector3 target, float timeToTarget) {
 		// calculate vectors
 		Vector3 toTarget = target - origin;

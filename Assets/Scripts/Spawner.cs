@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour {
 
-	public GameObject[] debris;
+	public GameObject[] SpawnedItems;
 
-	public Transform waveMover;
+	public Transform ParentMover;
 
 	public Transform bounds1;
 	public Transform bounds2;
@@ -23,7 +23,8 @@ public class Spawner : MonoBehaviour {
 	void Start () 
 	{
 		spawnObject ();
-		Invoke ("startIncreaseSpawn", 10);
+        if(increaseSpawnrate)
+		    Invoke ("startIncreaseSpawn", 10);
 
 		//Time.timeScale = 3;
 	}
@@ -31,9 +32,11 @@ public class Spawner : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-
-		repeatRate.x = Mathf.Clamp (repeatRate.x, 0.2f, 999);
-		repeatRate.y = Mathf.Clamp (repeatRate.y, 0.2f, 999);
+	    if (increaseSpawnrate)
+	    {
+	        repeatRate.x = Mathf.Clamp(repeatRate.x, 0.2f, 999);
+	        repeatRate.y = Mathf.Clamp(repeatRate.y, 0.2f, 999);
+	    }
 //if (Input.GetButton ("Fire1")) {
 //	Debug.Log ("1");
 //}
@@ -60,9 +63,9 @@ public class Spawner : MonoBehaviour {
 	void spawnObject()
 	{
 		var Xpos = Random.Range (bounds1.position.x, bounds2.position.x);
-		var objToSpawn = Random.Range (0, debris.Length);
+		var objToSpawn = Random.Range (0, SpawnedItems.Length);
 
-		var g = Instantiate (debris [objToSpawn], transform) as GameObject;
+		var g = Instantiate (SpawnedItems [objToSpawn], transform) as GameObject;
 
 		if (randomRot)
 			g.transform.rotation = Random.rotation;
@@ -71,13 +74,14 @@ public class Spawner : MonoBehaviour {
 		var p = transform.position;
 		g.transform.position = new Vector3(Xpos,p.y,p.z);
 
-		g.transform.parent = waveMover;
+		g.transform.parent = ParentMover;
 
 		Invoke("spawnObject",Random.Range(repeatRate.x,repeatRate.y));
 	}
 
 	void IncreaseSpawnRate()
 	{
+
 		if (repeatRate.x > 0.2f) 
 			repeatRate.x -= spawnRateIncrease;
 		

@@ -31,6 +31,8 @@ public class Recitle : MonoBehaviour
 
 	public Vector3 RippleposOffset;
 
+    public AudioClip[] splashSounds;
+
 
 	// Use this for initialization
 	void Start () 
@@ -65,7 +67,7 @@ public class Recitle : MonoBehaviour
         {
             threwPos = transform.position;
 
-            RS.spawnRock(transform.position, rockSpeed);
+            RS.spawnRock(transform.position, rockSpeed, GetComponent<Recitle>());
 
             Invoke("makeRipple", rockSpeed);
             pastEnabled = isEnabled;
@@ -111,10 +113,12 @@ public class Recitle : MonoBehaviour
         transform.position += delta * speedie;
     }
 
-	void makeRipple()
+	public void makeRipple()
 	{
-		GetComponent<AudioSource> ().Play ();
-		var pos = threwPos;
+	    GetComponent<AudioSource>().clip = splashSounds[Random.Range(0, splashSounds.Length)];
+        GetComponent<AudioSource>().Play();
+
+	    var pos = threwPos;
 		var rip = Instantiate (ripple,pos - RippleposOffset,Quaternion.identity) as GameObject;
 		Destroy (rip, 3);
 		var rot = new Vector3(
