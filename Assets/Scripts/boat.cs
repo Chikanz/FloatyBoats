@@ -10,8 +10,27 @@ public class boat : MonoBehaviour
 	void Start () 
 	{
 		RB = GetComponent<Rigidbody> ();
+	    InvokeRepeating("decideCurrent", 1, 1);
 	}
-	
+
+    void cancelCurrent()
+    {
+        GetComponent<ConstantForce>().force = new Vector3(0, 0, -0.1f);
+    }
+
+
+    void decideCurrent()
+    {
+        if (Random.Range(0, 10) == 7)
+        {
+            var randDir = new Vector3(Random.Range(-0.1f, 0.1f),
+                Random.Range(-0.1f, 0.1f),
+                Random.Range(-0.1f, 0.1f));
+            GetComponent<ConstantForce>().force += randDir;
+        }
+
+        Invoke("cancelCurrent", 3);
+    }
 
 	void Update () 
 	{

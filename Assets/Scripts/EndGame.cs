@@ -1,18 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using InControl;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class EndGame : MonoBehaviour {
 
-	public GameObject endGame;
-	public GameObject boat;
 	public GameObject endGameUI;
+    public Text scoreText;
 
-	public float score;
-
-	public Text scoreText;
+    private float score;
 
 	// Use this for initialization
 	void Start () {
@@ -22,11 +20,14 @@ public class EndGame : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		score += Time.deltaTime;
+        var controller = InputManager.ActiveDevice;
+
+        score += Time.deltaTime;
 		//Debug.Log (score);
 
-		if (endGameUI.activeInHierarchy == true) {
-			if (Input.GetButtonDown ("Fire2")) {
+		if (endGameUI.activeInHierarchy)
+        {
+			if (controller.Action1.WasPressed) {
 				SceneManager.LoadScene("gamescene");
 			}
 				
@@ -34,9 +35,12 @@ public class EndGame : MonoBehaviour {
 
 	}
 
-	void OnTriggerEnter(Collider other) {
-		if (other.gameObject == boat){
-			Destroy (boat.gameObject);
+	void OnTriggerEnter(Collider other)
+    {
+		if (other.tag == "Boat")
+        {
+			Destroy(other.gameObject);
+
 			endGameUI.SetActive(true);
 			scoreText.text = score.ToString("0");
 			Debug.Log ("endgame");

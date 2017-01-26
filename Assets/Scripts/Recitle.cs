@@ -69,7 +69,7 @@ public class Recitle : MonoBehaviour
 
             RS.spawnRock(transform.position, rockSpeed, GetComponent<Recitle>());
 
-            Invoke("makeRipple", rockSpeed);
+            //Invoke("makeRipple", rockSpeed);
             pastEnabled = isEnabled;
             transform.position = startPos;
         }
@@ -113,12 +113,12 @@ public class Recitle : MonoBehaviour
         transform.position += delta * speedie;
     }
 
-	public void makeRipple()
+	public void makeRipple(Vector3 pos)
 	{
 	    GetComponent<AudioSource>().clip = splashSounds[Random.Range(0, splashSounds.Length)];
         GetComponent<AudioSource>().Play();
 
-	    var pos = threwPos;
+	    //var pos = threwPos;
 		var rip = Instantiate (ripple,pos - RippleposOffset,Quaternion.identity) as GameObject;
 		Destroy (rip, 3);
 		var rot = new Vector3(
@@ -140,7 +140,7 @@ public class Recitle : MonoBehaviour
 		{
 			Rigidbody rb = hit.GetComponent<Rigidbody>();
 
-			if (rb != null)
+			if (rb != null && hit.tag != "Pebble")
 				rb.AddExplosionForce(waveForce, threwPos, waveRad, 3.0F);
 		}
 				
