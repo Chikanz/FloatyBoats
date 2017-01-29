@@ -23,4 +23,10 @@ public class pebble : MonoBehaviour
         if (c.tag == "Water")
             rec.makeRipple(transform.position);
     }
+
+    private void OnCollisionEnter(Collision c)
+    {
+        if (c.gameObject.tag == "Ground")
+            transform.parent = c.transform;
+    }
 }

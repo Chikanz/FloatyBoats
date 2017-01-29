@@ -32,9 +32,10 @@ public class boat : MonoBehaviour
         Invoke("cancelCurrent", 3);
     }
 
+
 	void Update () 
 	{
-			
+		
         //Random noise
 
 
@@ -49,5 +50,15 @@ public class boat : MonoBehaviour
 		//
 		//Debug.DrawRay(transform.position, down, Color.green);
 	}
-		
+
+    private void OnCollisionEnter(Collision c)
+    {
+        if (c.gameObject.tag == "Floatie")
+        {
+            CancelInvoke();
+            GetComponent<ConstantForce>().force = Vector3.zero;
+            Invoke("cancelCurrent", 3);
+        }
+    }
+
 }

@@ -33,11 +33,15 @@ public class Recitle : MonoBehaviour
 
     public AudioClip[] splashSounds;
 
+    public Material mat;
+
 
 	// Use this for initialization
 	void Start () 
 	{
-		startPos = transform.position;
+        transform.GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material = mat;
+        transform.GetChild(0).GetChild(1).GetComponent<MeshRenderer>().material = mat;
+        startPos = transform.position;
 	}
 	
 	// Update is called once per frame
@@ -141,7 +145,7 @@ public class Recitle : MonoBehaviour
 			Rigidbody rb = hit.GetComponent<Rigidbody>();
 
 			if (rb != null && hit.tag != "Pebble")
-				rb.AddExplosionForce(waveForce, threwPos, waveRad, 3.0F);
+				rb.AddExplosionForce(waveForce, threwPos, waveRad, 3.0f);
 		}
 				
 		//Invoke ("makeRipple", 0.5f); //tripple ripple

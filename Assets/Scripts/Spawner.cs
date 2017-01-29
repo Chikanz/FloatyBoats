@@ -11,9 +11,10 @@ public class Spawner : MonoBehaviour {
 	public Transform bounds1;
 	public Transform bounds2;
 
-	public bool randomRot = true;
+	public bool randomRot = false;
+    public bool randomYRot = false;
 
-	public Vector2 repeatRate = new Vector2(1,2);
+    public Vector2 repeatRate = new Vector2(1,2);
 
 	public bool increaseSpawnrate = false;
 	public float spawnRateIncrease = 0.5f;
@@ -37,27 +38,6 @@ public class Spawner : MonoBehaviour {
 	        repeatRate.x = Mathf.Clamp(repeatRate.x, 0.2f, 999);
 	        repeatRate.y = Mathf.Clamp(repeatRate.y, 0.2f, 999);
 	    }
-//if (Input.GetButton ("Fire1")) {
-//	Debug.Log ("1");
-//}
-//
-//if (Input.GetButton ("Fire2")) {
-//	Debug.Log ("2");
-//}
-//
-//if (Input.GetButton ("Fire3")) {
-//	Debug.Log ("3");
-//}
-//
-//if (Input.GetButton ("Fire4")) {
-//	Debug.Log ("4");
-//}
-//
-//if (Input.GetButton ("Fire5")) {
-//	Debug.Log ("5");
-//}
-//
-//
 	}
 
 	void spawnObject()
@@ -69,8 +49,9 @@ public class Spawner : MonoBehaviour {
 
 		if (randomRot)
 			g.transform.rotation = Random.rotation;
-		else
+		else if(randomYRot)
 			g.transform.rotation = Quaternion.Euler (0, Random.Range (0, 360), 0);
+
 		var p = transform.position;
 		g.transform.position = new Vector3(Xpos,p.y,p.z);
 
