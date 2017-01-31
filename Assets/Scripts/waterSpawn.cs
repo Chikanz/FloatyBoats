@@ -6,15 +6,15 @@ public class waterSpawn : MonoBehaviour {
     
 	public GameObject[] water;
 	public Transform waterMover;
-	public Vector3 rot; 
+	public Vector3 rot;
+    public Vector3 scale = Vector3.one;
 
-	public bool fixYdepth = true;
+    public bool fixYdepth = true;
 	public float repeat; //14 for exact chunk spawning
 
     // Use this for initialization
     void Start () 
 	{
-		//Time.timeScale = 2;
 
 		spawnWater ();
 		InvokeRepeating ("spawnWater", repeat, repeat);
@@ -31,8 +31,9 @@ public class waterSpawn : MonoBehaviour {
             transform.position,
             Quaternion.identity) as GameObject;
 		g.transform.rotation = Quaternion.Euler (rot);
+        g.transform.localScale = scale;
 
-		g.transform.parent = waterMover;
+        g.transform.parent = waterMover;
 		if (fixYdepth) {
 			var p = new Vector3 (0, Random.Range (-0.01f, 0.01f), 0);
 			g.transform.position += p;

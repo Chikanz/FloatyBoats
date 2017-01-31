@@ -55,6 +55,7 @@ public class boat : MonoBehaviour
     {
         if (c.gameObject.tag == "Floatie")
         {
+            //RB.AddForce(Vector3.back*10);
             CancelInvoke();
             GetComponent<ConstantForce>().force = Vector3.zero;
             Invoke("cancelCurrent", 3);
