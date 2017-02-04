@@ -18,8 +18,6 @@ public class pebble : MonoBehaviour
 
     void OnTriggerEnter(Collider c)
     {
-        Debug.Log(c.gameObject);
-        Debug.Assert(rec != null);
         if (c.tag == "Water")
             rec.makeRipple(transform.position);
     }

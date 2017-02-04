@@ -11,10 +11,12 @@ public class Recitle : MonoBehaviour
 
 	public float waveRad = 0.5f;
 	public float waveForce = 0.5f;
+    public float waveTorque = 5f;
 
 	public float makeWaveDelay = 0.3f;
 
 	public GameObject River;
+    public Transform ReticleHitPoint;
 
 	bool isEnabled = false;
 	bool pastEnabled = false;
@@ -34,6 +36,7 @@ public class Recitle : MonoBehaviour
     public AudioClip[] splashSounds;
 
     public Material mat;
+
 
 
 	// Use this for initialization
@@ -71,7 +74,7 @@ public class Recitle : MonoBehaviour
         {
             threwPos = transform.position;
 
-            RS.spawnRock(transform.position, rockSpeed, GetComponent<Recitle>());
+            RS.spawnRock(ReticleHitPoint.position, rockSpeed, GetComponent<Recitle>());
 
             //Invoke("makeRipple", rockSpeed);
             pastEnabled = isEnabled;
@@ -87,34 +90,27 @@ public class Recitle : MonoBehaviour
 
         //Movement
         var delta = Vector3.zero;
-        //Limit x movement
+        delta += new Vector3(horizontal, 0, vertical);
+        transform.position += delta * speedie;
+
+        //THE CLAMPS
+        var p = transform.position;
         if (isPlayerOne)
         {
-            if (transform.position.x <= River.transform.position.x)
-            {
-                delta += new Vector3(horizontal, 0, 0);
-            }
-            else
-            {
-                var p = transform.position;
-                transform.position = new Vector3(River.transform.position.x, p.y, p.z);
-            }
+            transform.position = new Vector3(
+                Mathf.Clamp(p.x, -999, River.transform.position.x),
+                p.y,
+                p.z
+            );
         }
         else
         {
-            if (transform.position.x >= River.transform.position.x)
-            {
-                delta += new Vector3(horizontal, 0, 0);
-            }
-            else
-            {
-                var p = transform.position;
-                transform.position = new Vector3(River.transform.position.x, p.y, p.z);
-            }
+            transform.position = new Vector3(
+                Mathf.Clamp(p.x, River.transform.position.x, 999),
+                p.y,
+                p.z
+            );
         }
-
-        delta += new Vector3(0, 0, vertical);
-        transform.position += delta * speedie;
     }
 
 	public void makeRipple(Vector3 pos)
@@ -144,13 +140,49 @@ public class Recitle : MonoBehaviour
 		{
 			Rigidbody rb = hit.GetComponent<Rigidbody>();
 
-			if (rb != null && hit.tag != "Pebble")
-				rb.AddExplosionForce(waveForce, threwPos, waveRad, 3.0f);
+		    if (rb != null && hit.tag != "Pebble")
+		    {
+		        Vector3 colliderHitPoint = hit.ClosestPointOnBounds(threwPos);
+
+                // Gets a vector that points from the player's position to the target's.
+                //(from https://docs.unity3d.com/Manual/DirectionDistanceFromOneObjectToAnother.html)
+                var heading = threwPos - colliderHitPoint;
+                var distance = heading.magnitude;
+                var direction = heading / distance; // This is now the normalized direction.
+
+                //var waveMulti = Map(distance, waveRad, 0.0f, 0.0f, 1.0f);
+		        float waveMulti = waveRad - Mathf.Clamp(distance,0.0f,waveRad);
+		        waveMulti = Map(waveMulti, 0.0f, waveRad, 0.0f, 1.0f);
+
+                //Debug.Log("Distance:" + distance.ToString());
+                Debug.Log("WaveMulti:" + waveMulti.ToString());
+
+                //rb.AddForce(direction* (waveForce * waveMulti)); //at point
+                //rb.AddTorque(transform.up*Random.Range(-waveTorque, waveTorque));
+
+
+            }
+				//rb.AddExplosionForce(waveForce, threwPos, waveRad,0, ForceMode.Impulse);
 		}
 				
 		//Invoke ("makeRipple", 0.5f); //tripple ripple
 		//Invoke ("makeRipple", 0.7f);
 	}
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(threwPos, waveRad);
+    }
+
+    public float Map(float value, float OldMin, float OldMax, float NewMin, float NewMax)
+    {
+        float oldRange = (OldMax - OldMin);
+        float newRange = (NewMax - NewMin);
+        float newValue = (((value - OldMin) * newRange) / oldRange) + NewMin;
+
+        return (newValue);
+    }
 
 
 }
