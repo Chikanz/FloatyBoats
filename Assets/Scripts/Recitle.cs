@@ -11,7 +11,6 @@ public class Recitle : MonoBehaviour
 
 	public float waveRad = 0.5f;
 	public float waveForce = 0.5f;
-    public float waveTorque = 5f;
 
 	public float makeWaveDelay = 0.3f;
 
@@ -146,7 +145,7 @@ public class Recitle : MonoBehaviour
 
                 // Gets a vector that points from the player's position to the target's.
                 //(from https://docs.unity3d.com/Manual/DirectionDistanceFromOneObjectToAnother.html)
-                var heading = threwPos - colliderHitPoint;
+                var heading = threwPos - hit.transform.position;
                 var distance = heading.magnitude;
                 var direction = heading / distance; // This is now the normalized direction.
 
@@ -155,11 +154,11 @@ public class Recitle : MonoBehaviour
 		        waveMulti = Map(waveMulti, 0.0f, waveRad, 0.0f, 1.0f);
 
                 //Debug.Log("Distance:" + distance.ToString());
-                Debug.Log("WaveMulti:" + waveMulti.ToString());
+                //Debug.Log("WaveMulti:" + waveMulti.ToString());
+		        Debug.Log(direction*(waveForce*-waveMulti));
 
-                //rb.AddForce(direction* (waveForce * waveMulti)); //at point
-                //rb.AddTorque(transform.up*Random.Range(-waveTorque, waveTorque));
-
+                rb.AddForceAtPosition(direction* (waveForce * -waveMulti),colliderHitPoint);
+                //rb.AddForce(direction * (waveForce * -waveMulti));
 
             }
 				//rb.AddExplosionForce(waveForce, threwPos, waveRad,0, ForceMode.Impulse);
@@ -173,6 +172,7 @@ public class Recitle : MonoBehaviour
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(threwPos, waveRad);
+        Gizmos.DrawWireSphere(transform.position, waveRad);
     }
 
     public float Map(float value, float OldMin, float OldMax, float NewMin, float NewMax)
