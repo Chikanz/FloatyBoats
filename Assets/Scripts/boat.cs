@@ -10,6 +10,8 @@ public class boat : MonoBehaviour
     public float shoreBounceForce;
     public float bounceBackForce = 10;
 
+    public bool willBounce = false;
+
 
     // Use this for initialization
     void Start()
@@ -70,7 +72,7 @@ public class boat : MonoBehaviour
             Debug.Log("Bouncy!");
         }
 
-        if (c.gameObject.tag == "Floatie")
+        if (c.gameObject.tag == "Floatie" && willBounce)
         {
             Debug.Log("bouncy!");
             RB.AddForce(Vector3.back*bounceBackForce);
@@ -82,10 +84,13 @@ public class boat : MonoBehaviour
 
     private void OnCollisionStay(Collision c)
     {
-        Debug.Log("bouncy!");
-        RB.AddForce(Vector3.back*bounceBackForce);
-        CancelInvoke();
-        GetComponent<ConstantForce>().force = Vector3.zero;
-        Invoke("cancelCurrent", 3);
+        if (c.gameObject.tag == "Floatie" && willBounce)
+        {
+            Debug.Log("bouncy!");
+            RB.AddForce(Vector3.back*bounceBackForce);
+            CancelInvoke();
+            GetComponent<ConstantForce>().force = Vector3.zero;
+            Invoke("cancelCurrent", 3);
+        }
     }
 }

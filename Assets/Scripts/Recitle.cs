@@ -155,7 +155,7 @@ public class Recitle : MonoBehaviour
 
                 //Debug.Log("Distance:" + distance.ToString());
                 //Debug.Log("WaveMulti:" + waveMulti.ToString());
-		        Debug.Log(direction*(waveForce*-waveMulti));
+		        //Debug.Log(direction*(waveForce*-waveMulti));
 
                 rb.AddForceAtPosition(direction* (waveForce * -waveMulti),colliderHitPoint);
                 //rb.AddForce(direction * (waveForce * -waveMulti));
