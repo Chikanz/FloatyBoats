@@ -1,18 +1,55 @@
 fileFormatVersion: 2
-guid: ecb2be6e49bdcb04185375f4ebc148b4
-timeCreated: 1486546810
+guid: 70469e4ed9d18de4383a6ff1dafd089c
+timeCreated: 1486879834
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: log
+    100000: Boy1
+    100002: //RootNode
+    100004: Chest_Rotate
+    100006: Head_01
+    100008: Head_Rotate
+    100010: L_ankle
+    100012: L_arm
+    100014: L_hand
+    100016: L_knee
+    100018: L_leg
+    100020: L_tips
+    100022: R_ankle
+    100024: R_arm
+    100026: R_hand
+    100028: R_knee
+    100030: R_leg
+    100032: R_tips
+    100034: R_toe
+    100036: R_toe1
+    100038: root
+    400000: Boy1
+    400002: //RootNode
+    400004: Chest_Rotate
+    400006: Head_01
+    400008: Head_Rotate
+    400010: L_ankle
+    400012: L_arm
+    400014: L_hand
+    400016: L_knee
+    400018: L_leg
+    400020: L_tips
+    400022: R_ankle
+    400024: R_arm
+    400026: R_hand
+    400028: R_knee
+    400030: R_leg
+    400032: R_tips
+    400034: R_toe
+    400036: R_toe1
+    400038: root
+    4300000: Boy1
     9500000: //RootNode
+    13700000: Boy1
   materials:
-    importMaterials: 0
+    importMaterials: 1
     materialName: 0
     materialSearch: 1
   animations:
@@ -35,14 +72,14 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 100
+    globalScale: 10
     meshCompression: 0
     addColliders: 0
-    importBlendShapes: 0
+    importBlendShapes: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 0
+    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
     secondaryUVAngleDistortion: 8
@@ -51,8 +88,8 @@ ModelImporter:
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
-    normalSmoothAngle: 0
-    normalImportMode: 1
+    normalSmoothAngle: 60
+    normalImportMode: 0
     tangentImportMode: 3
   importAnimation: 1
   copyAvatar: 0
@@ -73,7 +110,7 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 0
+  animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
