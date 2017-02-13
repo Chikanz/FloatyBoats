@@ -42,7 +42,7 @@ public class EndGame : MonoBehaviour {
 			Destroy(other.gameObject);
 
 			endGameUI.SetActive(true);
-			scoreText.text = score.ToString("0");
+			scoreText.text = "Score: " + score.ToString("0");
 			Debug.Log ("endgame");
 		}
 	}

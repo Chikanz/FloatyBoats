@@ -19,6 +19,7 @@ public class Spawner : MonoBehaviour {
 	public bool increaseSpawnrate = false;
 	public float spawnRateIncrease = 0.5f;
 	public float spawnIncreaseRate = 5;
+    public Vector2 maxIncrease;
 
 	// Use this for initialization
 	void Start () 
@@ -63,10 +64,10 @@ public class Spawner : MonoBehaviour {
 	void IncreaseSpawnRate()
 	{
 
-		if (repeatRate.x > 0.2f) 
+		if (repeatRate.x > maxIncrease.x) 
 			repeatRate.x -= spawnRateIncrease;
 		
-		if (repeatRate.y > 0.3f) 
+		if (repeatRate.y > maxIncrease.y) 
 			repeatRate.y -= spawnRateIncrease;
 	}
 

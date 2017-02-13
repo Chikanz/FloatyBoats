@@ -10,12 +10,12 @@ public class waterSpawn : MonoBehaviour {
     public Vector3 scale = Vector3.one;
 
     public bool fixYdepth = true;
-	public float repeat; //14 for exact chunk spawning
+	public float repeat; //14 for exact chunk spawning, 20 for norm
+    public bool updateRate = false;
 
     // Use this for initialization
     void Start () 
 	{
-
 		spawnWater ();
 		InvokeRepeating ("spawnWater", repeat, repeat);
 	}
@@ -23,6 +23,7 @@ public class waterSpawn : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
+
 	}
 
 	void spawnWater()
@@ -38,6 +39,14 @@ public class waterSpawn : MonoBehaviour {
 			var p = new Vector3 (0, Random.Range (-0.01f, 0.01f), 0);
 			g.transform.position += p;
 		}
+
+        //Speeeeeed up!
+	    if (updateRate)
+	    {
+            updateRate = false;
+            CancelInvoke("spawnWater");	        
+            InvokeRepeating("spawnWater", repeat, repeat);
+        }
 
 	}
 }

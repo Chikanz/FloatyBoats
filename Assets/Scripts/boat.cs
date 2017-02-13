@@ -10,7 +10,9 @@ public class boat : MonoBehaviour
     public float shoreBounceForce;
     public float bounceBackForce = 10;
 
-    public bool willBounce = false;
+    public bool willBounce = true;
+
+    public float bounceTimer = 0;
 
 
     // Use this for initialization
@@ -39,58 +41,50 @@ public class boat : MonoBehaviour
         Invoke("cancelCurrent", 3);
     }
 
-
     void Update()
     {
-
-        //Random noise
-
-
-        //Trying to GetType boat Touch float lol
-        //RaycastHit hit;
-        //Vector3 down = transform.TransformDirection(-Vector3.up);
-        //if (Physics.Raycast (transform.position, down, out hit, 100, 0)) 
-        //{
-        //	var p = transform.position;
-        //	transform.position = new Vector3 (p.x, hit.point.y, p.z);
-        //}
-        //
-        //Debug.DrawRay(transform.position, down, Color.green);
+        //bounceTimer -= Time.deltaTime;
     }
 
     private void OnCollisionEnter(Collision c)
     {
-        if (c.gameObject.tag == "Ground")
-        {
-            //Bounce away from shore
-            var p = transform.position;
-            if (p.x < River.position.x)
-                RB.AddForce(Vector3.right*shoreBounceForce);
-            else
-                RB.AddForce(Vector3.left*shoreBounceForce);
-
-            Debug.Log("Bouncy!");
-        }
-
-        if (c.gameObject.tag == "Floatie" && willBounce)
-        {
-            Debug.Log("bouncy!");
-            RB.AddForce(Vector3.back*bounceBackForce);
-            CancelInvoke();
-            GetComponent<ConstantForce>().force = Vector3.zero;
-            Invoke("cancelCurrent", 3);
-        }
+        //if (c.gameObject.tag == "Floatie" && willBounce &&
+        //    transform.position.z < c.transform.position.z)
+        //{
+        //    Debug.Log("floatie bouncy!");
+        //    RB.AddForce(Vector3.back*bounceBackForce);
+        //    CancelInvoke();
+        //    GetComponent<ConstantForce>().force = Vector3.zero;
+        //    Invoke("cancelCurrent", 3);
+        //    bounceTimer = 1;
+        //}
     }
 
     private void OnCollisionStay(Collision c)
     {
-        if (c.gameObject.tag == "Floatie" && willBounce)
+        bounceTimer += Time.deltaTime;
+
+        if (c.gameObject.tag == "Ground" && willBounce && bounceTimer > 1)
         {
-            Debug.Log("bouncy!");
+            //Bounce away from shore
+            var p = transform.position;
+            if (p.x < River.position.x)
+                RB.AddForce(Vector3.right * shoreBounceForce);
+            else
+                RB.AddForce(Vector3.left * shoreBounceForce);
+
+            bounceTimer = 0;
+            Debug.Log("ground Bouncy!");
+        }
+
+        if (c.gameObject.tag == "Floatie" && willBounce && bounceTimer > 1)
+        {
+            Debug.Log("floatie bouncy!");
             RB.AddForce(Vector3.back*bounceBackForce);
             CancelInvoke();
             GetComponent<ConstantForce>().force = Vector3.zero;
             Invoke("cancelCurrent", 3);
+            bounceTimer = 0;
         }
     }
 }

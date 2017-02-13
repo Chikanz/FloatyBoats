@@ -5,6 +5,7 @@ using UnityEngine;
 public class pebble : MonoBehaviour
 {
     public Recitle rec;
+    private float childTimer;
 
 	// Use this for initialization
 	void Start () {
@@ -19,12 +20,20 @@ public class pebble : MonoBehaviour
     void OnTriggerEnter(Collider c)
     {
         if (c.tag == "Water")
+        {
             rec.makeRipple(transform.position);
+            Destroy(gameObject);
+        }
+
     }
 
-    private void OnCollisionEnter(Collision c)
+    private void OnCollisionStay(Collision c)
     {
-        if (c.gameObject.tag == "Ground")
-            transform.parent = c.transform;
+        childTimer += Time.deltaTime;
+        if (childTimer > 1)
+        {
+            if (c.gameObject.tag == "Ground")
+                transform.parent = c.transform;
+        }
     }
 }

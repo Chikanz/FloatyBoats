@@ -1,13 +1,13 @@
 fileFormatVersion: 2
-guid: e09e46f81fae07f4a836bfb197a7c9a2
-timeCreated: 1486880992
+guid: 9e859b18cbb6a634a93d918a2cdd55f6
+timeCreated: 1486983618
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: Boy1
-    100002: //RootNode
-    100004: Chest_Rotate
+    100000: Chest_Rotate
+    100002: Girl
+    100004: //RootNode
     100006: Head_01
     100008: Head_Cntrl
     100010: Head_IK
@@ -39,9 +39,9 @@ ModelImporter:
     100062: R_toe1
     100064: root
     100066: transform1
-    400000: Boy1
-    400002: //RootNode
-    400004: Chest_Rotate
+    400000: Chest_Rotate
+    400002: Girl
+    400004: //RootNode
     400006: Head_01
     400008: Head_Cntrl
     400010: Head_IK
@@ -73,9 +73,9 @@ ModelImporter:
     400062: R_toe1
     400064: root
     400066: transform1
-    4300000: Boy1
+    4300000: Girl
     9500000: //RootNode
-    13700000: Boy1
+    13700000: Girl
   materials:
     importMaterials: 1
     materialName: 0
@@ -116,8 +116,8 @@ ModelImporter:
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
-    normalSmoothAngle: 180
-    normalImportMode: 1
+    normalSmoothAngle: 60
+    normalImportMode: 0
     tangentImportMode: 3
   importAnimation: 1
   copyAvatar: 0

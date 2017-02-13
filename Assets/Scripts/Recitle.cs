@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using InControl;
 using UnityEngine;
 
-public class Recitle : MonoBehaviour 
+public class Recitle : MonoBehaviour
 {
+    public Animator playerAnim;
+
 	public bool isPlayerOne = true;
 
 	public float speedie = 0.5f;
@@ -35,8 +37,6 @@ public class Recitle : MonoBehaviour
     public AudioClip[] splashSounds;
 
     public Material mat;
-
-
 
 	// Use this for initialization
 	void Start () 
@@ -75,6 +75,8 @@ public class Recitle : MonoBehaviour
 
             RS.spawnRock(ReticleHitPoint.position, rockSpeed, GetComponent<Recitle>());
 
+            playerAnim.SetTrigger("Throw");
+
             //Invoke("makeRipple", rockSpeed);
             pastEnabled = isEnabled;
             transform.position = startPos;
@@ -99,7 +101,7 @@ public class Recitle : MonoBehaviour
             transform.position = new Vector3(
                 Mathf.Clamp(p.x, -999, River.transform.position.x),
                 p.y,
-                p.z
+                Mathf.Clamp(p.z, -999, 6.5f)
             );
         }
         else
@@ -107,7 +109,7 @@ public class Recitle : MonoBehaviour
             transform.position = new Vector3(
                 Mathf.Clamp(p.x, River.transform.position.x, 999),
                 p.y,
-                p.z
+                Mathf.Clamp(p.z, -999, 6.5f)
             );
         }
     }
