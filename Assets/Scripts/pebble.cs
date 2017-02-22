@@ -6,6 +6,7 @@ public class pebble : MonoBehaviour
 {
     public Recitle rec;
     private float childTimer;
+    bool hasRippled = false;
 
 	// Use this for initialization
 	void Start () {
@@ -19,10 +20,13 @@ public class pebble : MonoBehaviour
 
     void OnTriggerEnter(Collider c)
     {
+        if (hasRippled) return;
+
         if (c.tag == "Water")
         {
+            hasRippled = true;
             rec.makeRipple(transform.position);
-            Destroy(gameObject);
+            Destroy(gameObject,1);
         }
 
     }

@@ -12,22 +12,23 @@ public class EndGame : MonoBehaviour {
 
     private float score;
 
+    private InputDevice Controller;
+
 	// Use this for initialization
 	void Start () {
-		
 	}
 	
 	// Update is called once per frame
-	void Update () {
-
-        var controller = InputManager.ActiveDevice;
+	void Update ()
+	{
+	    Controller = InputManager.ActiveDevice;
 
         score += Time.deltaTime;
 		//Debug.Log (score);
 
 		if (endGameUI.activeInHierarchy)
         {
-			if (controller.Action1.WasPressed) {
+			if (Controller.Action1.WasPressed) {
 				SceneManager.LoadScene("gamescene");
 			}
 				

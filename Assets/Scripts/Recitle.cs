@@ -71,6 +71,7 @@ public class Recitle : MonoBehaviour
 
         if (pastEnabled && !isEnabled)
         {
+            if (RS.isThrowing) return;
             threwPos = transform.position;
 
             RS.spawnRock(ReticleHitPoint.position, rockSpeed, GetComponent<Recitle>());
