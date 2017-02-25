@@ -21,6 +21,9 @@ public class Spawner : MonoBehaviour {
 	public float spawnIncreaseRate = 5;
     public Vector2 maxIncrease;
 
+    public bool randomScale = false;
+    public Vector2 scaleBounds;
+
 	// Use this for initialization
 	void Start () 
 	{

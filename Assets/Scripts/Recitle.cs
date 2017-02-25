@@ -52,15 +52,82 @@ public class Recitle : MonoBehaviour
 	    var controller = InputManager.ActiveDevice;
 
         if (isPlayerOne)
-            UpdateReticle(controller.LeftTrigger.Value,
-                controller.LeftStickX,
-                controller.LeftStickY,
+            UpdateReticle(keyBoardThrow(true),
+                keyBoardInputP1(false),
+                keyBoardInputP1(true),
                 isPlayerOne);
+
+        //UpdateReticle(controller.LeftTrigger.Value,
+        //        controller.LeftStickX,
+        //        controller.LeftStickY,
+        //        isPlayerOne);
         else
-            UpdateReticle(controller.RightTrigger.Value,
-                controller.RightStickX,
-                controller.RightStickY,
+            UpdateReticle(keyBoardThrow(false),
+                keyBoardInputP2(false),
+                keyBoardInputP2(true),
                 isPlayerOne);
+
+        //UpdateReticle(controller.RightTrigger.Value,
+        //        controller.RightStickX,
+        //        controller.RightStickY,
+        //        isPlayerOne);
+
+    }
+
+    private float keyBoardInputP1(bool horizontal)
+    {
+        if (horizontal)
+        {
+            if (Input.GetKey(KeyCode.W))
+                return 1;
+            if (Input.GetKey(KeyCode.S))
+                return -1;
+        }
+        else
+        {
+            if (Input.GetKey(KeyCode.A))
+                return -1;
+            if (Input.GetKey(KeyCode.D))
+                return 1;
+        }
+        return 0;
+    }
+
+    private float keyBoardInputP2(bool horizontal)
+    {
+        if (horizontal)
+        {
+            if (Input.GetKey(KeyCode.UpArrow))
+                return 1;
+            if (Input.GetKey(KeyCode.DownArrow))
+                return -1;
+        }
+        else
+        {
+            if (Input.GetKey(KeyCode.LeftArrow))
+                return -1;
+            if (Input.GetKey(KeyCode.RightArrow))
+                return 1;
+        }
+        return 0;
+    }
+
+    private float keyBoardThrow(bool P1)
+    {
+        if (P1)
+        {
+            if (Input.GetKey(KeyCode.F))
+                return 1.0f;
+            else
+                return 0.0f;
+        }
+        else
+        {
+            if (Input.GetKey(KeyCode.RightShift) || Input.GetKey(KeyCode.RightShift))
+                return 1.0f;
+            else
+                return 0.0f;
+        }
 
     }
 
@@ -93,6 +160,7 @@ public class Recitle : MonoBehaviour
         //Movement
         var delta = Vector3.zero;
         delta += new Vector3(horizontal, 0, vertical);
+        delta.Normalize();
         transform.position += delta * speedie;
 
         //THE CLAMPS
@@ -117,7 +185,7 @@ public class Recitle : MonoBehaviour
 
 	public void makeRipple(Vector3 pos)
 	{
-	    GetComponent<AudioSource>().clip = splashSounds[Random.Range(0, splashSounds.Length)];
+	    GetComponent<AudioSource>().clip = splashSounds[UnityEngine.Random.Range(0, splashSounds.Length)];
         GetComponent<AudioSource>().Play();
 
 	    //var pos = threwPos;
