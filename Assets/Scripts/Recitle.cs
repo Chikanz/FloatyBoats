@@ -38,6 +38,8 @@ public class Recitle : MonoBehaviour
 
     public Material mat;
 
+    bool usingKeyboard = true;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -49,28 +51,37 @@ public class Recitle : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-	    var controller = InputManager.ActiveDevice;
+	    InputDevice controller = InputManager.ActiveDevice;
 
-        if (isPlayerOne)
+	    if (anyButton(controller) && usingKeyboard)
+	    {
+            usingKeyboard = false;
+        }
+        else if (Input.anyKey && !usingKeyboard)
+	    {
+            usingKeyboard = true;
+	    }
+
+        if (isPlayerOne && usingKeyboard)
             UpdateReticle(keyBoardThrow(true),
                 keyBoardInputP1(false),
                 keyBoardInputP1(true),
                 isPlayerOne);
-
-        //UpdateReticle(controller.LeftTrigger.Value,
-        //        controller.LeftStickX,
-        //        controller.LeftStickY,
-        //        isPlayerOne);
-        else
+        else if(isPlayerOne && !usingKeyboard)
+            UpdateReticle(controller.LeftTrigger.Value,
+                    controller.LeftStickX,
+                    controller.LeftStickY,
+                    isPlayerOne);
+        else if(!isPlayerOne && usingKeyboard)
             UpdateReticle(keyBoardThrow(false),
                 keyBoardInputP2(false),
                 keyBoardInputP2(true),
                 isPlayerOne);
-
-        //UpdateReticle(controller.RightTrigger.Value,
-        //        controller.RightStickX,
-        //        controller.RightStickY,
-        //        isPlayerOne);
+        else if(!isPlayerOne && !usingKeyboard)
+            UpdateReticle(controller.RightTrigger.Value,
+                    controller.RightStickX,
+                    controller.RightStickY,
+                    isPlayerOne);
 
     }
 
@@ -160,7 +171,8 @@ public class Recitle : MonoBehaviour
         //Movement
         var delta = Vector3.zero;
         delta += new Vector3(horizontal, 0, vertical);
-        delta.Normalize();
+        if(usingKeyboard)
+            delta.Normalize();
         transform.position += delta * speedie;
 
         //THE CLAMPS
@@ -181,6 +193,23 @@ public class Recitle : MonoBehaviour
                 Mathf.Clamp(p.z, -999, 6.5f)
             );
         }
+    }
+
+    public bool anyButton(InputDevice c)
+    {
+        if (c.Action1.WasPressed ||
+            c.Action2.WasPressed ||
+            c.Action3.WasPressed ||
+            c.Action4.WasPressed ||
+            c.LeftTrigger.WasPressed||
+            c.RightTrigger.WasPressed ||
+            c.LeftStickX.Value > 0 ||
+            c.LeftStickY.Value > 0
+        )
+        {
+            return true;
+        }
+        return false;
     }
 
 	public void makeRipple(Vector3 pos)

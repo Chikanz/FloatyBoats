@@ -22,7 +22,7 @@ public class Spawner : MonoBehaviour {
     public Vector2 maxIncrease;
 
     public bool randomScale = false;
-    public Vector2 scaleBounds;
+    public Vector2 scaleBounds = Vector2.one;
 
 	// Use this for initialization
 	void Start () 
@@ -56,7 +56,13 @@ public class Spawner : MonoBehaviour {
 		else if(randomYRot)
 			g.transform.rotation = Quaternion.Euler (0, Random.Range (0, 360), 0);
 
-		var p = transform.position;
+	    if (randomScale)
+	    {
+	        var scale = Random.Range(scaleBounds.x, scaleBounds.y);
+	        g.transform.localScale = new Vector3(scale, scale, scale);
+	    }
+
+	    var p = transform.position;
 		g.transform.position = new Vector3(Xpos,p.y,p.z);
 
 		g.transform.parent = ParentMover;
