@@ -1,10 +1,9 @@
 fileFormatVersion: 2
-guid: bd1594392ce824ceca21f3d58de76d22
-timeCreated: 1485013782
+guid: 7615c24d63b413c4895d3c25b08a4340
+timeCreated: 1488687621
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: Button02_0
+  fileIDToRecycleName: {}
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -35,7 +34,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -67,22 +66,17 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+  - buildTarget: Android
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: Button02_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 5
-        width: 250
-        height: 118
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 60, y: 46, z: 54, w: 46}
-      outline: []
-      tessellationDetail: 0
+    sprites: []
     outline: []
   spritePackingTag: 
   userData: 

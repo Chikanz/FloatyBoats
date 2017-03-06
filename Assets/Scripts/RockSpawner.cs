@@ -7,6 +7,8 @@ using UnityEngine;
 public class RockSpawner : MonoBehaviour {
 
 	public GameObject rockObj;
+    public GameObject BoatObj;
+
 	float time;
     public float spawnDelay = 0.3f;
 
@@ -29,6 +31,13 @@ public class RockSpawner : MonoBehaviour {
 	    StartCoroutine(SpawnDelayedRock(endPos, speed, rec, spawnDelay));
 	}
 
+    public void resetThrow(Vector3 endPos, Recitle rec, float speed)
+    {
+        isThrowing = true;
+        rec.playerAnim.SetTrigger("Throw");
+        StartCoroutine(SpawnBoat(endPos, speed, spawnDelay));
+    }
+
     IEnumerator SpawnDelayedRock(Vector3 endPos, float speed, Recitle rec, float delayTime)
     {
         yield return new WaitForSeconds(delayTime);
@@ -40,6 +49,15 @@ public class RockSpawner : MonoBehaviour {
         thrownRock.GetComponent<pebble>().rec = rec;
         isThrowing = false;
         //Destroy (thrownRock, time);
+    }
+
+    IEnumerator SpawnBoat(Vector3 endPos, float speed, float delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
+        var boaty = Instantiate(BoatObj, transform.position, Quaternion.identity);
+        var res = calculateBestThrowSpeed(transform.position, endPos, speed);
+        boaty.GetComponent<Rigidbody>().AddForce(res, ForceMode.VelocityChange);
+        isThrowing = false;
     }
 
     //http://answers.unity3d.com/questions/248788/calculating-ball-trajectory-in-full-3d-world.html

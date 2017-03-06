@@ -18,8 +18,19 @@ public class pebble : MonoBehaviour
 		
 	}
 
+    void OnCollisionEnter(Collision c)
+    {
+        if (c.gameObject.tag != "Water")
+        {
+            StartCoroutine(rec.Vibrate(1f, 0.1f, rec.isPlayerOne));
+        }
+    }
+
     void OnTriggerEnter(Collider c)
     {
+        Debug.Log("Collision!");
+        
+
         if (hasRippled) return;
 
         if (c.tag == "Water")

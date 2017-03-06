@@ -85,6 +85,7 @@ public class MenuMan : MonoBehaviour
 
         if (controller.MenuWasPressed && isTutorial)
         {
+
             boatyBoat.transform.position = new Vector3(-1.77f, 0.481f, 4.18f);
             ExitMenuInit();
         }
@@ -121,6 +122,8 @@ public class MenuMan : MonoBehaviour
     void ExitMenuInit()
     {
         isTutorial = false;
+        //Talkies parent
+        SpeechBubbles[0].transform.parent.gameObject.SetActive(false);
 
         //Tutorial marker
         transform.GetChild(0).gameObject.SetActive(false);

@@ -40,8 +40,10 @@ public class Recitle : MonoBehaviour
 
     bool usingKeyboard = true;
 
-	// Use this for initialization
-	void Start () 
+    private InputDevice controller;
+
+    // Use this for initialization
+    void Start () 
 	{
         transform.GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material = mat;
         transform.GetChild(0).GetChild(1).GetComponent<MeshRenderer>().material = mat;
@@ -51,7 +53,7 @@ public class Recitle : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-	    InputDevice controller = InputManager.ActiveDevice;
+	     controller = InputManager.ActiveDevice;
 
 	    if (anyButton(controller) && usingKeyboard)
 	    {
@@ -62,28 +64,36 @@ public class Recitle : MonoBehaviour
             usingKeyboard = true;
 	    }
 
-        if (isPlayerOne && usingKeyboard)
-            UpdateReticle(keyBoardThrow(true),
-                keyBoardInputP1(false),
-                keyBoardInputP1(true),
-                isPlayerOne);
-        else if(isPlayerOne && !usingKeyboard)
-            UpdateReticle(controller.LeftTrigger.Value,
-                    controller.LeftStickX,
-                    controller.LeftStickY,
-                    isPlayerOne);
-        else if(!isPlayerOne && usingKeyboard)
-            UpdateReticle(keyBoardThrow(false),
-                keyBoardInputP2(false),
-                keyBoardInputP2(true),
-                isPlayerOne);
-        else if(!isPlayerOne && !usingKeyboard)
-            UpdateReticle(controller.RightTrigger.Value,
-                    controller.RightStickX,
-                    controller.RightStickY,
-                    isPlayerOne);
+	    if (isPlayerOne && usingKeyboard)
+	    {
+	        UpdateReticle(keyBoardThrow(true),
+	            keyBoardInputP1(false),
+	            keyBoardInputP1(true),
+	            isPlayerOne);
+	    }
+	    else if (isPlayerOne && !usingKeyboard)
+	    {
+	        UpdateReticle(controller.LeftTrigger.Value,
+	            controller.LeftStickX,
+	            controller.LeftStickY,
+	            isPlayerOne);
+	    }
+	    else if (!isPlayerOne && usingKeyboard)
+	    {
+	        UpdateReticle(keyBoardThrow(false),
+	            keyBoardInputP2(false),
+	            keyBoardInputP2(true),
+	            isPlayerOne);
+	    }
+	    else if (!isPlayerOne && !usingKeyboard)
+	    {
+	        UpdateReticle(controller.RightTrigger.Value,
+	            controller.RightStickX,
+	            controller.RightStickY,
+	            isPlayerOne);
+	    }
 
-    }
+	}
 
     private float keyBoardInputP1(bool horizontal)
     {
@@ -156,6 +166,8 @@ public class Recitle : MonoBehaviour
 
             playerAnim.SetTrigger("Throw");
 
+            StartCoroutine(Vibrate(1, 0.1f, p1));
+
             //Invoke("makeRipple", rockSpeed);
             pastEnabled = isEnabled;
             transform.position = startPos;
@@ -217,8 +229,13 @@ public class Recitle : MonoBehaviour
 	    GetComponent<AudioSource>().clip = splashSounds[UnityEngine.Random.Range(0, splashSounds.Length)];
         GetComponent<AudioSource>().Play();
 
-	    //var pos = threwPos;
-		var rip = Instantiate (ripple,pos - RippleposOffset,Quaternion.identity) as GameObject;
+        if(isPlayerOne)
+            StartCoroutine(Vibrate(0.5f, 0.3f, true));
+        else
+            StartCoroutine(Vibrate(0.5f, 0.3f, false));
+
+        //var pos = threwPos;
+        var rip = Instantiate (ripple,pos - RippleposOffset,Quaternion.identity) as GameObject;
 		Destroy (rip, 3);
 		var rot = new Vector3(
 			0,
@@ -284,5 +301,23 @@ public class Recitle : MonoBehaviour
         return (newValue);
     }
 
+
+    public IEnumerator Vibrate(float intensity, float duration, bool left)
+    {
+        if (left)
+        {
+            controller.Vibrate(intensity, 0f);
+            yield return new WaitForSeconds(duration);
+            controller.Vibrate(0f, 0f);
+            yield return null;
+        }
+        else
+        {
+            controller.Vibrate(0f, intensity);
+            yield return new WaitForSeconds(duration);
+            controller.Vibrate(0f, 0f);
+            yield return null;
+        }
+    }
 
 }
