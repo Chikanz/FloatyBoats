@@ -1,5 +1,5 @@
 # Floaty Boat
-Floaty boat is a Unity 5.5 game made for GGJ17 and polished after the jam finished. 
+Floaty Moat is a Unity 5.5 game made for GGJ17 and polished after the jam finished. 
 
 It's a chill, local co-op game where you and a friend use the same controller to control two forest spirits. Create waves by throwing rocks into the river to guide your paper boat and avoid debris along the way. Each player can only throw rocks half way across the river, so you'll need to communicate and work together with your partner if you want to make it!
 
