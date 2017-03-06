@@ -40,6 +40,8 @@ public class Recitle : MonoBehaviour
 
     bool usingKeyboard = true;
 
+    private bool invertY;
+
     private InputDevice controller;
 
     // Use this for initialization
@@ -54,8 +56,11 @@ public class Recitle : MonoBehaviour
 	void Update () 
 	{
 	     controller = InputManager.ActiveDevice;
+	    var Ystickleft = invertY ? -controller.LeftStickY : controller.LeftStickY;
+        var YstickRight = invertY ? -controller.RightStickY : controller.RightStickY;
 
-	    if (anyButton(controller) && usingKeyboard)
+
+        if (anyButton(controller) && usingKeyboard)
 	    {
             usingKeyboard = false;
         }
@@ -75,7 +80,7 @@ public class Recitle : MonoBehaviour
 	    {
 	        UpdateReticle(controller.LeftTrigger.Value,
 	            controller.LeftStickX,
-	            controller.LeftStickY,
+                Ystickleft,
 	            isPlayerOne);
 	    }
 	    else if (!isPlayerOne && usingKeyboard)
@@ -89,7 +94,7 @@ public class Recitle : MonoBehaviour
 	    {
 	        UpdateReticle(controller.RightTrigger.Value,
 	            controller.RightStickX,
-	            controller.RightStickY,
+                YstickRight,
 	            isPlayerOne);
 	    }
 
@@ -318,6 +323,11 @@ public class Recitle : MonoBehaviour
             controller.Vibrate(0f, 0f);
             yield return null;
         }
+    }
+
+    public void toggleInvert()
+    {
+        invertY = !invertY;
     }
 
 }

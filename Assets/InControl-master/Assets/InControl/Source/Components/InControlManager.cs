@@ -136,6 +136,11 @@ namespace InControl
 					break;
 			}
 		}
+
+	    public void toggleYInvert()
+	    {
+            invertYAxis = !invertYAxis;
+	    }
 	}
 }
 
